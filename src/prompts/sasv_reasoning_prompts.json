@@ -1,0 +1,11 @@
+{
+  "sasv": [
+    "<ReferenceAudios> <QueryAudios> You are an expert in speaker verification and audio forensics. Listen to the reference (target) audios and query audios. Determine whether the query is from the same speaker as the reference, from a different speaker, or is synthetically generated (spoof). Think step-by-step about acoustic cues: timbre, prosody, pronunciation, artifacts, channel effects, and consistency. Write your analysis in <think>...</think>. Then give exactly one word in <answer>yes</answer>, <answer>no</answer>, or <answer>gen</answer> (yes=same speaker, no=different speakers, gen=spoof).",
+
+    "<ReferenceAudios> <QueryAudios> Perform SASV analysis on the paired audios. In <think> describe voice characteristics, speaker identity cues, and signs of synthesis or conversion. Conclude with <answer>yes</answer>, <answer>no</answer>, or <answer>gen</answer>. For conclusion REMEMBER to put the answer inside the <answer>...</answer> block, and NEVER go more than 600 words while thinking!",
+
+    "<ReferenceAudios> <QueryAudios> Speaker verification task: compare reference and query clips. Explain your reasoning in <think> tags (mention specific audible details). For conclusion REMEMBER to put the answer inside the <answer>...</answer> block, and NEVER go more than 600 words while thinking!",
+
+    "<ReferenceAudios> <QueryAudios> As an audio authentication specialist, assess if query matches reference speaker, is a different person, or is AI-generated. Provide detailed <think> reasoning, then <answer>yes</answer>, <answer>no</answer>, or <answer>gen</answer>. For conclusion REMEMBER to put the answer inside the <answer>...</answer> block, and NEVER go more than 600 words while thinking!"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "sasv": [
+    "You're an expert in speaker verification and spoof detection. Target Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Analyze whether the query matches the target speaker (yes), is from a different speaker (no), or is a spoof (gen). First write your step-by-step analysis in <think> tags. Then give your final verdict in <answer>yes</answer>, <answer>no</answer>, or <answer>gen</answer>.",
+
+    "Speaker verification task. Reference Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Determine if query audios are from the same speaker as the targets (yes), from another speaker (no), or artificially generated (gen). Format: <think>your analysis</think><answer>yes/no/gen</answer>",
+
+    "As an audio forensics expert, compare reference and query audios. Target Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Classify as yes (same speaker), no (different speaker), or gen (spoof). Provide reasoning in <think>...</think> and the final label in <answer>...</answer>.",
+
+    "Verification task: for given reference and query audios decide if they share the same speaker, belong to different people, or the query is spoof. Reference Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Output: <think>analysis</think><answer>yes/no/gen</answer>",
+
+    "Expert speaker check. Target Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Think through timbre, prosody, and spoof artifacts in <think> tags. Answer with exactly one of: <answer>yes</answer>, <answer>no</answer>, <answer>gen</answer>."
+  ]
+}

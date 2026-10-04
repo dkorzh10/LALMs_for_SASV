@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project artifacts
+outputs/
+checkpoints/
+.venv/
+data/
+logs/
+jobs/
+*.pt
+*.pth
+*.bin
+!**/config.json
+_staging_configs/

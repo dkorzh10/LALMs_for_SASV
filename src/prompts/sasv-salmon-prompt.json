@@ -1,0 +1,5 @@
+{
+    "sasv": [
+      "You are an expert in speaker verification. The audio contains one or more enrollment recordings of a target speaker followed by a query recording: <SpeechHere> Decide whether the query is the same speaker (yes), a different speaker (no), or a synthetic/spoofed voice (gen). Answer with exactly one word: "
+    ]
+  }

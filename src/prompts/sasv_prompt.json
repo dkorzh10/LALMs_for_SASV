@@ -1,0 +1,23 @@
+{
+  "sasv": [
+    "You're an expert in audio verification. You will have to determine if query audios are from the same speaker as from target audios, from another speaker or spoof. You must answer with one word only: yes (same speaker), no (different speakers), gen (spoof). Target Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "You will have to understand whether audios came from the same speaker, from two different people or query audios are artificially generated. You must answer with one word only: yes (same speaker), no (different speakers), gen (spoof). Target Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Verification task: for given reference and query audios you have to understand if reference and query from the same speaker, from different people or the query is spoof. You should answer with one word only: yes/no/gen. Reference Audios: <ReferenceAudios>, Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "As an audio verification specialist, assess if the query audios match the target speaker, come from a different speaker, or are synthetic spoofs. Respond with exactly one word: yes (same speaker), no (different speakers), gen (spoof). Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Expert speaker verification: Determine if query audios are from the same speaker as the targets, a different one, or generated fakes. Output only one word: yes (match), no (mismatch), gen (spoof). Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Perform audio speaker check: Same speaker between target and query? Different speakers? Or query is spoofed? Answer solely with: yes (same), no (different), gen (spoof). Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "You specialize in audio authentication. Classify query audios as same speaker as targets, from another speaker, or artificial spoofs—one word only: yes, no, or gen. Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Speaker identity task: Match query to target audios (yes for same speaker), flag different speakers (no), or detect spoof (gen). Single-word response required. Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Analyze for speaker consistency: Query audios from target's speaker (yes), unrelated speaker (no), or synthetic (gen)? One word only. Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:",
+
+    "Audio forensics expert: Verify if queries share the target speaker, involve a different person, or are spoofs. Reply with just: yes (same), no (different), gen (spoof). Target Audios: <ReferenceAudios>. Query Audios: <QueryAudios>. Put your final answer in the \"<answer>{final_answer}</answer>\" block:"
+  ]
+}

@@ -1,0 +1,100 @@
+# Qwen2-Audio-7B hard-label LoRA SFT.
+General:
+  output_dir: "${OUTPUT_DIR}/qwen_sft"
+
+Logger:
+  log_freq: 10
+  save_all_predictions: true
+
+Prompts:
+  hard_label_prompts: src/prompts/sasv_prompt.json
+
+Model:
+  model_name: qwen_audio
+  ckpt: ""
+  lora:
+    enabled: true
+    alpha: 256
+    rank: 128
+    lora_dropout: 0.05
+    projections: all
+  amp: true
+  max_txt_len: 512
+  additional_kwargs:
+    qwen_audio:
+      model_path: "${QWEN_AUDIO_PATH}"
+
+
+Datasets:
+  dataset_train_path: "${DATA_ROOT}/train.json"
+  dataset_val_path: "${DATA_ROOT}/val.json"
+  dataset_test_path: "${DATA_ROOT}/test.json"
+  max_train_samples: null
+  max_valid_samples: null
+  max_test_samples: null
+  train_samples_offset: 0
+  val_samples_offset: 0
+  test_samples_offset: 0
+  shuffle: true
+
+
+Runner:
+  type: train
+  trainer: SFT
+  num_gpus: 2
+  num_workers: 4
+  SFT:
+    task_type: hard_label
+    batch_size_train: 1
+    batch_size_eval: 1
+    num_epochs: 2
+    iters_per_epoch: 20
+    iters_per_epoch_val: null
+    accum_grad_iters: 32
+    generation:
+      max_new_tokens: 16
+      num_beams: 1
+      do_sample: false
+    optimizator:
+      init_lr: 1.0e-5
+      min_lr: 1.0e-6
+      warmup_start_lr: 0.0
+      warmup_steps: 16
+      weight_decay: 0.05
+      beta2: 0.999
+      max_grad_norm: 1.0
+  Test:
+    batch_size: 8
+    save_all_predictions: true
+    extract_confidence: true
+    generation:
+      max_new_tokens: 16
+      num_beams: 1
+      do_sample: false
+
+
+Audio:
+  target_sr: 16000
+  max_len_sec: 8.0
+  min_len_sec: 1.0
+  pad_mode: repeat
+  train_max_len_sec: 7.0
+  train_enroll_max_len_sec: 7.0
+  train_query_max_len_sec: 7.0
+  test_max_len_sec: 8.0
+  test_enroll_max_len_sec: 8.0
+  test_query_max_len_sec: 8.0
+  vad:
+    enabled: true
+  crop:
+    enabled: true
+  aug:
+    enabled: true
+    p_noise: 0.1
+    snr_db: [9, 15]
+    p_rir: 0.07
+    p_rawboost: 0.07
+    noise_paths_txt: "${DATA_ROOT}/noise_list.txt"
+    rir_paths_txt: "${DATA_ROOT}/rir_list.txt"
+    rir_max_len_sec: 2.0
+

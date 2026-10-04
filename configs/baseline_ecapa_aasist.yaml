@@ -1,0 +1,98 @@
+# Baseline: ECAPA2 + Wav2Vec2-AASIST fusion.
+General:
+  output_dir: "${OUTPUT_DIR}/baseline_ecapa_aasist"
+
+Logger:
+  log_freq: 20
+
+Prompts:
+  hard_label_prompts: src/prompts/sasv_prompt.json
+
+Model:
+  model_name: sasv_ecapa_w2v_aasist
+  ckpt: "${CM_CKPT}"
+  additional_kwargs:
+    sasv_baseline:
+      cm_backend: lkb
+      antispoofing_repo: "${AASIST_REPO}"
+      xlsr_weights_path: "${XLSR_WEIGHTS}"
+      ecapa_repo: Jenthe/ECAPA2
+      ecapa_file: "${ECAPA_CKPT}"
+      freeze_backbones: true
+      fusion_mode: threshold
+      fusion_hidden_dim: 32
+      fusion_dropout: 0.1
+      cm_samples: 64600
+
+
+Datasets:
+  dataset_train_path: "${DATA_ROOT}/train.json"
+  dataset_val_path: "${DATA_ROOT}/val.json"
+  dataset_test_path: "${DATA_ROOT}/test.json"
+  max_train_samples: null
+  max_valid_samples: null
+  max_test_samples: null
+  train_samples_offset: 0
+  val_samples_offset: 0
+  test_samples_offset: 0
+  shuffle: true
+
+
+Runner:
+  type: train
+  trainer: SASV
+  num_gpus: 1
+  num_workers: 4
+  SFT:
+    task_type: hard_label
+    batch_size_train: 16
+    batch_size_eval: 16
+    num_epochs: 10
+    iters_per_epoch: null
+    accum_grad_iters: 1
+    generation:
+      max_new_tokens: 1
+      num_beams: 1
+      do_sample: false
+    optimizator:
+      init_lr: 1.0e-3
+      min_lr: 1.0e-5
+      warmup_start_lr: 0.0
+      warmup_steps: 100
+      weight_decay: 0.0
+      beta2: 0.999
+      max_grad_norm: 1.0
+  Test:
+    batch_size: 32
+    extract_confidence: true
+    generation:
+      max_new_tokens: 1
+      num_beams: 1
+      do_sample: false
+
+
+Audio:
+  target_sr: 16000
+  max_len_sec: 8.0
+  min_len_sec: 1.0
+  pad_mode: repeat
+  train_max_len_sec: 7.0
+  train_enroll_max_len_sec: 7.0
+  train_query_max_len_sec: 7.0
+  test_max_len_sec: 8.0
+  test_enroll_max_len_sec: 8.0
+  test_query_max_len_sec: 8.0
+  vad:
+    enabled: true
+  crop:
+    enabled: true
+  aug:
+    enabled: true
+    p_noise: 0.1
+    snr_db: [9, 15]
+    p_rir: 0.07
+    p_rawboost: 0.07
+    noise_paths_txt: "${DATA_ROOT}/noise_list.txt"
+    rir_paths_txt: "${DATA_ROOT}/rir_list.txt"
+    rir_max_len_sec: 2.0
+

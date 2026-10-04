@@ -1,0 +1,122 @@
+# SALMONN-7B reasoning / CoT SFT.
+General:
+  output_dir: "${OUTPUT_DIR}/salmon_cot_sft"
+
+Logger:
+  log_freq: 20
+  save_all_predictions: true
+
+Prompts:
+  reasoning_prompts: src/prompts/sasv_reasoning_prompts.json
+
+Model:
+  model_name: sasv_salmon
+  ckpt: "${SALMONN_CKPT}"
+  lora:
+    enabled: true
+    alpha: 256
+    rank: 128
+    lora_dropout: 0.05
+    projections: all
+  amp: true
+  max_txt_len: 2048
+  additional_kwargs:
+    salmon:
+      debug: false
+      new_lora: true
+
+      pretrained_ckpts:
+        llama_path: "${LLAMA_PATH}"
+        whisper_path: "${WHISPER_PATH}"
+        beats_path: "${BEATS_PATH}"
+
+      freeze_whisper: false
+      whisper_unfreeze_last_n_layers: 0
+      use_speech_Qformer: true
+      num_speech_query_token: 1
+      freeze_speech_QFormer: false
+      window_level_Qformer: true
+      second_per_window: 0.333333
+      second_stride: 0.333333
+      silence_delay_seconds: 1.0
+      enable_speaker_classification: false
+      enable_bonafide_spoof_classification: false
+      ce1_lambda: 1.0
+      answer_loss_weight: 1.0
+      format_loss_weight: 1.0
+      answer_focal_gamma: 0.0
+
+Datasets:
+  dataset_train_path: "${DATA_ROOT}/reasoning_train.json"
+  dataset_val_path: "${DATA_ROOT}/reasoning_val.json"
+  dataset_test_path: "${DATA_ROOT}/test.json"
+  reasoning_version: long
+  max_train_samples: null
+  max_valid_samples: null
+  max_test_samples: null
+  train_samples_offset: 0
+  val_samples_offset: 0
+  test_samples_offset: 0
+  shuffle: true
+
+Runner:
+  type: train
+  trainer: SFT
+  num_gpus: 4
+  num_workers: 4
+  SFT:
+    task_type: reasoning
+    batch_size_train: 2
+    batch_size_eval: 4
+    num_epochs: 10
+    iters_per_epoch: 1024
+    iters_per_epoch_val: null
+    accum_grad_iters: 16
+    generation:
+      max_new_tokens: 1780
+      num_beams: 1
+      do_sample: false
+    optimizator:
+      init_lr: 2.0e-6
+      min_lr: 1.0e-6
+      warmup_start_lr: 0.0
+      warmup_steps: 16
+      weight_decay: 0.00065
+      beta2: 0.999
+      max_grad_norm: 2.0
+  Test:
+    batch_size: 8
+    save_all_predictions: true
+    extract_confidence: true
+    threshold_objective: min_a_dcf
+    generation:
+      max_new_tokens: 2048
+      num_beams: 1
+      do_sample: false
+
+
+Audio:
+  target_sr: 16000
+  max_len_sec: 8.0
+  min_len_sec: 1.0
+  pad_mode: repeat
+  train_max_len_sec: 7.0
+  train_enroll_max_len_sec: 7.0
+  train_query_max_len_sec: 7.0
+  test_max_len_sec: 8.0
+  test_enroll_max_len_sec: 8.0
+  test_query_max_len_sec: 8.0
+  vad:
+    enabled: true
+  crop:
+    enabled: true
+  aug:
+    enabled: true
+    p_noise: 0.1
+    snr_db: [9, 15]
+    p_rir: 0.07
+    p_rawboost: 0.07
+    noise_paths_txt: "${DATA_ROOT}/noise_list.txt"
+    rir_paths_txt: "${DATA_ROOT}/rir_list.txt"
+    rir_max_len_sec: 2.0
+

@@ -1,0 +1,37 @@
+# Baseline: ECAPA2 + WavLM power fusion.
+# Evaluate with:
+#   python src/utils/scripts/eval_sasv_cascade.py \
+#     --config configs/baseline_ecapa_wavlm_fusion.yaml \
+#     --asv_type ecapa2 --asv_model "${ECAPA_CKPT}" \
+#     --cm_model "${WAVLM_CM_CKPT}" \
+#     --dataset "${DATA_ROOT}/test.json" \
+#     --q 0.5 --outputs_root "${OUTPUT_DIR}"
+General:
+  output_dir: "${OUTPUT_DIR}/baseline_ecapa_wavlm_fusion"
+
+Datasets:
+  dataset_test_path: "${DATA_ROOT}/test.json"
+
+Audio:
+  target_sr: 16000
+  max_len_sec: 8.0
+  min_len_sec: 1.0
+  pad_mode: repeat
+  test_enroll_max_len_sec: 8.0
+  test_query_max_len_sec: 8.0
+  vad:
+    enabled: true
+  crop:
+    enabled: true
+  aug:
+    enabled: false
+
+# Cascade / fusion hyperparameters (read by eval_sasv_cascade.py callers)
+Cascade:
+  asv_type: ecapa2
+  power_q: 0.5
+  cm_threshold: 0.5
+  fusion_threshold: 0.3
+  ecapa_repo: Jenthe/ECAPA2
+  ecapa_file: "${ECAPA_CKPT}"
+  wavlm_path: "${WAVLM_PATH}"
